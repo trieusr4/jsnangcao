@@ -1,35 +1,39 @@
-import { getStudents,getStudent,deleteStudent } from '../api/student';
+import { getProducts,getProduct,deleteProduct } from '../api/product';
 import reRender from '../helpers/reRender';
 
 
-const Student = {
+const Product = {
     render: async () => { // đã đóng ngoặc nhọn phải có return ở trong
         // 1. fetch là phương thức dùng để lấy dữ liệu từ phía BE
         // 2. fetch trả về 1 Promise => sẽ có await ở trước fetch để chờ kq
         // 3. fetch nhận vào đường dẫn API endpoint của BE
-        //  const response1 = await fetch('https://6291d401cd0c91932b689dbb.mockapi.io/students');
-        // 3.2 sử dụng axios đã đc khởi tạo và snh ra hàm getStudent
+        //  const response1 = await fetch('https://6291d401cd0c91932b689dbb.mockapi.io/Products');
+        // 3.2 sử dụng axios đã đc khởi tạo và snh ra hàm getProduct
 
-        const response= await getStudents();
+        const response= await getProducts();
         const {data}=response;
         // 4. lần đợi fetch đầu tiên sẽ trả về obj Response
         console.log('response',response);
         // 5. lần đợi tiếp theo là response trả dữ liệu về dạng json
-        // const students = await response.json();
-        // console.log('students', students);
+        // const Products = await response.json();
+        // console.log('Products', Products);
 
-        return `<div>
+        return `<div>   
             ${
-                data.map((student) => (
+                data.map((product) => (
                     `<div>
-                        <div>ID: ${student.id}</div>
-                        <div>Name: ${student.name}</div>
-                        <div>MSV: ${student.msv}</div>
+                        <div>ID: ${product.id}</div>
+                        <div>Name: ${product.name}</div>
+                        <div>Avatar: ${product.avatar}</div>
+                        <div>Description: ${product.des}</div>
+                        <div>Price: ${product.price}</div>
+                        <div>Status: ${product.status}</div>
+
                         <div>
-                            <a href="/students/detail/${student.id}">
+                            <a href="/products/detail/${product.id}">
                                  <button> chi tiet</button>
                             </a>
-                            <button class='btn btn-danger' data-id="${student.id}" data-name="${student.name}"> xoa </button>
+                            <button class='btn btn-danger' data-id="${product.id}" data-name="${product.name}"> xoa </button>
                         </div>
                     </div>`
                 )).join('')
@@ -48,12 +52,12 @@ const Student = {
                 // btn.style.color = 'red'; // day la khi bam vao se thanh mau do
                 const btnId=btn.dataset.id;
                 console.log(btnId);
-                await deleteStudent(btnId);
+                await deleteProduct(btnId);
                 // window.location.reload(); lam nhu nay se bi tai lai het tat ca
-                await reRender('#content', Student);
+                await reRender('#content', Product);
             });
         });
     }
 };
 
-export default Student;
+export default Product;
